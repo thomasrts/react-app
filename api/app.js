@@ -116,6 +116,20 @@ app.route("/v1/users/:id").get((req,res) => {
     })
 })
 
+app.route("/v1/users/credentials").post((req, res) => {
+    if(!req.body.username || !req.body.password) return res.status(400).send("Bad Request")
+    const sqlquery = `SELECT id, username, password FROM users WHERE id = ${req.params.id}`
+    pool.query(sqlquery, (err, results) => {
+        if(err) return res.status(500).send("Internal Server Error")
+        bcrypt.compare(req.body.password, results[0].password, (err, stmt) => {
+            if(err) return res.status(500).send("Internal Server Error")
+            else{
+                if(stmt) return res.status(200).send(results[0].id)
+                else return res.status(404).send("User Not Found")
+            }
+        })
+    })
+})
 
 
 function sleep(ms) {
