@@ -1,15 +1,15 @@
 require('dotenv').config()
 const express = require('express')
-const mysql = require('mysql2');
-const config = require('./routes/dbconnection');
-const bodyParser = require('body-parser');
+const mysql = require('mysql2')
+const config = require('./routes/dbconnection')
+const bodyParser = require('body-parser')
 const rateLimit = require('express-rate-limit')
 const oapi = require('./swagger')
 const cors = require('cors')
 const bcrypt = require("bcrypt")
 const Tweets = require('./models/tweets')
 const Users = require('./models/users')
-const nodemailer = require("nodemailer");
+const nodemailer = require("nodemailer")
 
 /* The above code is limiting the number of requests that can be made to the server. */
 const limiter = rateLimit({
