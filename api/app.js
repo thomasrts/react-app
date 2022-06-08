@@ -27,6 +27,7 @@ const logger = winston.createLogger({
         new winston.transports.File({filename: 'combined.log'}),
     ],
 });
+
 const app = express();
 const pool = mysql.createPool(config);
 app.use(limiter);
@@ -40,9 +41,82 @@ app.use((req, res, next) => {
     (req.headers.authorization !== "W9mVzVm1BVWe2O0EGmT7ta03HT7JQf52" || !req.headers.authorization) ?  res.status(403).send("Forbidden") : next();
 })
 
-app.route("/v1/users").get((req,res) => {
+app.route("/v1/tweets").get((req, res) => {
+    const sqlquery = "SELECT * FROM tweets"
+    pool.query(sqlquery, (err, results) => {
+        if(err) return res.status(500).send("Internal Server Error")
+        return res.status(200).send(Object.assign([], results))
 
+    })
+}).post((req, res) => {
+    if(!req.body.content || !req.body.idUser) return res.status(400).send("Bad Request")
+    const sqlquery = `INSERT INTO tweets (content, idUser) VALUES ("${req.body.content}", ${req.body.idUser}))`
+    pool.query(sqlquery, (err, results) => {
+        if(err) return res.status(500).send("Internal Server Error")
+        return res.status(204).send("Created")
+    })
 })
+
+app.route("/v1/tweets/:id").get((req, res) => {
+    if(isNaN(parseInt(req.params.id))) return res.status(400).send("Bad Request")
+    const sqlquery = `SELECT * FROM tweets WHERE idTweet = '${req.params.id}'`
+    pool.query(sqlquery, (err, results) => {
+        if(err) return res.status(500).send("Internal Server Error")
+        return res.status(200).send(Object.assign({}, results[0]))
+    })
+}).delete((req, res) => {
+    if(isNaN(parseInt(req.params.id))) return res.status(400).send("Bad Request")
+    const sqlquery = `DELETE FROM tweets WHERE idTweet = '${req.params.id}'`
+    pool.query(sqlquery, (err, results) => {
+        if(err) return res.status(500).send("Internal Server Error")
+        return res.status(201).send("Deleted")
+    })
+})
+
+
+
+app.route("/v1/users").get((req,res) => {
+    const sqlquery = `SELECT * FROM users`
+    pool.query(sqlquery, (err, results) => {
+        if(err) return res.status(500).send("Internal Server Error")
+        return res.status(200).send(Object.assign([], results))
+    })
+}).post((req, res) => {
+    if(!req.body.email || !req.body.password) return res.status(400).send("Bad Request")
+    bcrypt.hash(req.body.password, 10, (err, hash) => {
+        const sqlquery = `INSERT INTO users (email, password) values ("${req.body.email}", "${hash}")`
+        pool.query(sqlquery, (err) => {
+            if(err) return res.status(err).send("Internal Server Error")
+            return res.status(201).send("Created")
+        })
+    })
+})
+
+
+app.route("/v1/users/:id").get((req,res) => {
+    if(isNaN(parseInt(req.params.id))) return res.status(400).send("Bad Request")
+    const sqlquery = `SELECT * FROM users WHERE id = "${req.params.id}"`
+    pool.query(sqlquery, (err, results) => {
+        if(err) return res.status(500).send("Internal Server Error")
+        return res.status(200).send(Object.assign({}, results[0]))
+    })
+}).patch((req,res) => {
+    if(isNaN(parseInt(req.params.id)) || !req.body.biography) return res.status(400).send("Bad Request")
+    const sqlquery = `UPDATE users set biography = "${req.body.biography}" WHERE id = "${req.params.id}"`
+    pool.query(sqlquery, (err, results) => {
+        if(err) return res.status(500).send("Internal Server Error")
+        return res.status(204).send("Updated")
+    })
+}).delete((req, res) => {
+    if(isNaN(parseInt(req.params.id))) return res.status(400).send("Bad Request")
+    const sqlquery = `DELETE FROM users WHERE id = ${req.params.id}`
+    pool.query(sqlquery, (err) => {
+        if(err) return res.status(500).send("Internal Server Error")
+        return res.status(201).send("Delete")
+    })
+})
+
+
 
 function sleep(ms) {
     return new Promise((resolve) => {
