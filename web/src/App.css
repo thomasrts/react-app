@@ -51,7 +51,7 @@
   height: 100%;
   width: 100%;
   overflow: overlay;
-  max-width: 850px;
+  width: 900px;
 }
 ::-webkit-scrollbar {
   width: 0px;
@@ -251,6 +251,10 @@ textarea[name="tweet"] {
   bottom: 10px;
 }
 
+.icon svg {
+  cursor: pointer;
+}
+
 .none {
   color: white;
 }
@@ -298,4 +302,10 @@ textarea[name="tweet"] {
 .tendance .title {
   font-size: 18px;
   font-weight: 600;
+}
+
+
+/* Part compte  */
+.compte {
+  width: 900px;
 }

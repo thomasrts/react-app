@@ -1,15 +1,16 @@
+import { Routes, Route, Link } from "react-router-dom";
+import Homepage from './react/Homepage';
+import Compte from './react/Compte';
 import './App.css';
-import Home from './react/Home/Home';
-import RightPart from './react/RightPart/RightPart';
-import LeftPart from './react/LeftPart/LeftPart';
 
 function App() {
     return (
         <>
             <div className='homepage'>
-            <LeftPart className='leftPart'/>
-            <Home className='homePart'/>
-            <RightPart className='rightPart'/>
+            <Routes>
+                <Route path="/" element={<Homepage />} />
+                <Route path="/mon-compte" element={<Compte />} />
+            </Routes>
             </div>
         </>
     );
