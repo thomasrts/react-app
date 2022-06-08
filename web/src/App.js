@@ -8,7 +8,7 @@ function App() {
         <>
             <div className='homepage'>
             <LeftPart className='leftPart'/>
-            <Home className='home'/>
+            <Home className='homePart'/>
             <RightPart className='rightPart'/>
             </div>
         </>

@@ -43,16 +43,25 @@
   height: 100vh;
 }
 
-.home {
+.homePart {
   flex: 1;
   background-color: rgb(255, 255, 255);
-  border-left: 1px solid rgb(0, 0, 0);
-  border-right: 1px solid rgb(0, 0, 0);
+  border-left: 1px solid rgb(128, 128, 128, 0.5);
+  border-right: 1px solid rgb(128, 128, 128, 0.5);
+  height: 100%;
+  width: 100%;
+  overflow: overlay;
+  max-width: 850px;
+}
+::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
 }
 
 .leftPart {
-  background-color: rgb(255, 255, 255);
   width: 25%;
+  height: 100vh;
+  position: static;
 }
 
 .rightPart {
@@ -121,4 +130,172 @@
 .profil .name {
   font-weight: 500;
   font-size: 16px;
+}
+
+
+/* Part Home */
+.home {
+  padding: 1rem;
+}
+.home .title {
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.home svg {
+  width: 30px;
+  margin-right: 7px;
+}
+
+.tweetSend {
+  display: flex;
+  flex-direction: column;
+}
+
+.tweetSend textarea {
+  border: none;
+  outline: none;
+  font-size: 20px;
+  width: 100%;
+}
+
+textarea[name="tweet"] {
+  resize : none;
+  height: 50px;
+}
+
+.profil-tweet {
+  display: flex;
+  align-items: self-start;
+}
+
+.btn-tweetSend {
+  align-self: end;
+  margin: 0px 30px ;
+  background-color: #1DAAF2;
+  border: none;
+  color: white;
+  border-radius: 30px;
+  padding: 12px;
+  width: 13%;
+  font-size: 16px;
+  position: relative;
+  left: 30px;
+  font-weight: 600;
+}
+
+.home-tweet {
+  padding-bottom: 10px;
+}
+
+.hr {
+  border: 1px solid rgb(118, 118, 118, 0.3);
+}
+
+.listTweet {
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  padding-top: 0px;
+}
+
+.listTweet svg {
+
+  margin-top: 22px;
+}
+
+.contain {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+}
+
+.profile {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 160px;
+  height: 26px;
+  align-items: start;
+}
+
+.profile .name {
+  font-weight: 600;
+}
+
+.grey {
+  color: grey;
+}
+
+.icons {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.fleche-bottom {
+  transform: rotate(90deg);
+  width: 50px;
+  height: 30px;
+}
+
+.icon {
+  color: grey;
+  display: flex;
+  align-items: baseline;
+}
+
+.icon p {
+  position: relative;
+  bottom: 10px;
+}
+
+.none {
+  color: white;
+}
+
+/* Part Rigth part  */
+.rightPart {
+  padding: 1rem;
+}
+.search {
+  border: none;
+  background-color: rgb(187, 187, 187, 0.4);
+  padding: 15px;
+  width: 100%;
+  border-radius: 25px;
+}
+
+.tendances {
+  margin-top: 10px;
+  background-color: rgb(187, 187, 187, 0.4);
+  border-radius: 25px;
+  padding: 1rem;
+}
+.trend {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 0px;
+}
+
+.tendances-bloc {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin: 20px 0px;
+}
+
+.tendance p {
+  margin-top: 0px;
+  margin-bottom: 5px;
+}
+
+.tendances svg {
+  width: 20px;
+}
+
+.tendance .title {
+  font-size: 18px;
+  font-weight: 600;
 }

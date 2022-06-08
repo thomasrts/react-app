@@ -2,7 +2,7 @@ import { home, explore, twitter, notifications, messages, bookmarks, lists, prof
 
 const LeftPart = () => {
     return (
-      <div className="nav">
+      <div className="nav leftPart">
         <ul>
           <li><a className="logo" href="#">{twitter}</a></li>
           <li><a href="#">{home} Home</a></li>
