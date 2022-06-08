@@ -7,8 +7,9 @@ const rateLimit = require('express-rate-limit')
 const oapi = require('./swagger')
 const cors = require('cors')
 const bcrypt = require("bcrypt")
+const Tweets = require('./models/tweets')
+const Users = require('./models/users')
 const nodemailer = require("nodemailer");
-const winston = require('winston');
 
 /* The above code is limiting the number of requests that can be made to the server. */
 const limiter = rateLimit({
@@ -18,15 +19,6 @@ const limiter = rateLimit({
     legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 })
 
-const logger = winston.createLogger({
-    level: 'info',
-    format: winston.format.json(),
-    defaultMeta: {service: 'user-service'},
-    transports: [
-        new winston.transports.File({filename: 'error.log', level: 'error'}),
-        new winston.transports.File({filename: 'combined.log'}),
-    ],
-});
 
 const app = express();
 const pool = mysql.createPool(config);
@@ -34,21 +26,67 @@ app.use(limiter);
 app.use(cors())
 app.use(express.json());
 app.use('/swagger', oapi.swaggerui);
+oapi.component('schemas', 'Tweets', Tweets.schema)
+oapi.component('schemas', 'Users', Users.schema)
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.use((req, res, next) => {
-    (req.headers.authorization !== "W9mVzVm1BVWe2O0EGmT7ta03HT7JQf52" || !req.headers.authorization) ?  res.status(403).send("Forbidden") : next();
+    (req.headers.authorization !== "W9mVzVm1BVWe2O0EGmT7ta03HT7JQf52" || !req.headers.authorization) ? res.status(403).send("Forbidden") : next();
 })
 
-app.route("/v1/tweets").get((req, res) => {
+app.route("/v1/tweets").get(oapi.path({
+        tags: ['Tweets'],
+        summary: "Retourne une liste de tweets",
+        responses: {
+            200: {
+                description: 'Liste de tweets',
+                content: {
+                    'application/json': {
+                        schema: {
+                            type: 'array',
+                            'items': {'$ref': '#/components/schemas/Tweets'}
+                        }
+                    }
+                }
+            },
+            404: {
+                description: 'Not Found'
+            },
+            429: {
+                description: 'Too Many Requests'
+            },
+            500: {
+                description: 'Internal Server Error'
+            }
+        }
+    }
+),(req, res) => {
     const sqlquery = "SELECT * FROM tweets"
     pool.query(sqlquery, (err, results) => {
         if(err) return res.status(500).send("Internal Server Error")
-        return res.status(200).send(Object.assign([], results))
-
+        if(results) return res.status(200).send(Object.assign([], results))
+        else return res.status(404).send("Not Found")
     })
-}).post((req, res) => {
+}).post(oapi.path({
+        tags: ['Tweets'],
+        summary: "Crée un tweet",
+        responses: {
+            204: {
+                description: 'Crée un tweet'
+            },
+            400: {
+                description: 'Bad Request'
+            },
+            429: {
+                description: 'Too Many Requests'
+            },
+            500: {
+                description: 'Internal Server Error'
+            }
+        }
+    }
+),(req, res) => {
     if(!req.body.content || !req.body.idUser) return res.status(400).send("Bad Request")
     const sqlquery = `INSERT INTO tweets (content, idUser) VALUES ("${req.body.content}", ${req.body.idUser}))`
     pool.query(sqlquery, (err, results) => {
@@ -57,17 +95,62 @@ app.route("/v1/tweets").get((req, res) => {
     })
 })
 
-app.route("/v1/tweets/:id").get((req, res) => {
+app.route("/v1/tweets/:id").get(oapi.path({
+        tags: ['Tweets'],
+        summary: "Retourne un tweet",
+        responses: {
+            200: {
+                description: 'Un tweet',
+                content: {
+                    'application/json': {
+                        schema: {
+                            type: 'array',
+                            'items': {'$ref': '#/components/schemas/Tweets'}
+                        }
+                    }
+                }
+            },
+            404: {
+                description: 'Not Found'
+            },
+            429: {
+                description: 'Too Many Requests'
+            },
+            500: {
+                description: 'Internal Server Error'
+            }
+        }
+    }
+),(req, res) => {
     if(isNaN(parseInt(req.params.id))) return res.status(400).send("Bad Request")
     const sqlquery = `SELECT * FROM tweets WHERE idTweet = '${req.params.id}'`
     pool.query(sqlquery, (err, results) => {
         if(err) return res.status(500).send("Internal Server Error")
-        return res.status(200).send(Object.assign({}, results[0]))
+        if(results) return res.status(200).send(Object.assign({}, results[0]))
+        else return res.status(404).send("Not Found")
     })
-}).delete((req, res) => {
+}).delete(oapi.path({
+        tags: ['Tweets'],
+        summary: "Supprime un tweet",
+        responses: {
+            201: {
+                description: 'Supprime un tweet',
+            },
+            404: {
+                description: 'Not Found'
+            },
+            429: {
+                description: 'Too Many Requests'
+            },
+            500: {
+                description: 'Internal Server Error'
+            }
+        }
+    }
+),(req, res) => {
     if(isNaN(parseInt(req.params.id))) return res.status(400).send("Bad Request")
     const sqlquery = `DELETE FROM tweets WHERE idTweet = '${req.params.id}'`
-    pool.query(sqlquery, (err, results) => {
+    pool.query(sqlquery, (err) => {
         if(err) return res.status(500).send("Internal Server Error")
         return res.status(201).send("Deleted")
     })
@@ -75,13 +158,57 @@ app.route("/v1/tweets/:id").get((req, res) => {
 
 
 
-app.route("/v1/users").get((req,res) => {
+app.route("/v1/users").get(oapi.path({
+        tags: ['Utilisateurs'],
+        summary: "Retourne les utilisateurs",
+        responses: {
+            200: {
+                description: "Une liste d'utilisateurs",
+                content: {
+                    'application/json': {
+                        schema: {
+                            type: 'array',
+                            'items': {'$ref': '#/components/schemas/Users'}
+                        }
+                    }
+                }
+            },
+            404: {
+                description: 'Not Found'
+            },
+            429: {
+                description: 'Too Many Requests'
+            },
+            500: {
+                description: 'Internal Server Error'
+            }
+        }
+    }
+),(req,res) => {
     const sqlquery = `SELECT * FROM users`
     pool.query(sqlquery, (err, results) => {
         if(err) return res.status(500).send("Internal Server Error")
         return res.status(200).send(Object.assign([], results))
     })
-}).post((req, res) => {
+}).post(oapi.path({
+        tags: ['Utilisateurs'],
+        summary: "Crée un utilisateur",
+        responses: {
+            201: {
+                description: "Crée un utilisateur",
+            },
+            404: {
+                description: 'Not Found'
+            },
+            429: {
+                description: 'Too Many Requests'
+            },
+            500: {
+                description: 'Internal Server Error'
+            }
+        }
+    }
+),(req, res) => {
     if(!req.body.email || !req.body.password) return res.status(400).send("Bad Request")
     bcrypt.hash(req.body.password, 10, (err, hash) => {
         const sqlquery = `INSERT INTO users (email, password) values ("${req.body.email}", "${hash}")`
@@ -93,21 +220,93 @@ app.route("/v1/users").get((req,res) => {
 })
 
 
-app.route("/v1/users/:id").get((req,res) => {
+app.route("/v1/users/:id").get(oapi.path({
+        tags: ['Utilisateurs'],
+        summary: "Retourne un utilisateur",
+        responses: {
+            200: {
+                description: "Un utilisateur",
+                content: {
+                    'application/json': {
+                        schema: {
+                            type: 'array',
+                            'items': {'$ref': '#/components/schemas/Users'}
+                        }
+                    }
+                }
+            },
+            400: {
+                description: 'Bad request'
+            },
+            404: {
+                description: 'Not Found'
+            },
+            429: {
+                description: 'Too Many Requests'
+            },
+            500: {
+                description: 'Internal Server Error'
+            }
+        }
+    }
+),(req,res) => {
     if(isNaN(parseInt(req.params.id))) return res.status(400).send("Bad Request")
     const sqlquery = `SELECT * FROM users WHERE id = "${req.params.id}"`
     pool.query(sqlquery, (err, results) => {
         if(err) return res.status(500).send("Internal Server Error")
-        return res.status(200).send(Object.assign({}, results[0]))
+        if(results) return res.status(200).send(Object.assign({}, results[0]))
+        else return res.status(404).send("Not Found")
     })
-}).patch((req,res) => {
+}).patch(oapi.path({
+        tags: ['Utilisateurs'],
+        summary: "Modifie un utilisateur",
+        responses: {
+            204: {
+                description: "Modifie un utilisateur",
+            },
+            400: {
+                description: 'Bad request'
+            },
+            404: {
+                description: 'Not Found'
+            },
+            429: {
+                description: 'Too Many Requests'
+            },
+            500: {
+                description: 'Internal Server Error'
+            }
+        }
+    }
+),(req,res) => {
     if(isNaN(parseInt(req.params.id)) || !req.body.biography) return res.status(400).send("Bad Request")
     const sqlquery = `UPDATE users set biography = "${req.body.biography}" WHERE id = "${req.params.id}"`
-    pool.query(sqlquery, (err, results) => {
+    pool.query(sqlquery, (err) => {
         if(err) return res.status(500).send("Internal Server Error")
         return res.status(204).send("Updated")
     })
-}).delete((req, res) => {
+}).delete(oapi.path({
+        tags: ['Utilisateurs'],
+        summary: "Supprime un utilisateur",
+        responses: {
+            201: {
+                description: "Supprime un utilisateur",
+            },
+            400: {
+                description: 'Bad request'
+            },
+            404: {
+                description: 'Not Found'
+            },
+            429: {
+                description: 'Too Many Requests'
+            },
+            500: {
+                description: 'Internal Server Error'
+            }
+        }
+    }
+),(req, res) => {
     if(isNaN(parseInt(req.params.id))) return res.status(400).send("Bad Request")
     const sqlquery = `DELETE FROM users WHERE id = ${req.params.id}`
     pool.query(sqlquery, (err) => {
@@ -116,7 +315,36 @@ app.route("/v1/users/:id").get((req,res) => {
     })
 })
 
-app.route("/v1/users/credentials").post((req, res) => {
+app.route("/v1/users/credentials").post(oapi.path({
+        tags: ['Utilisateurs'],
+        summary: "Connecte un utilisateur",
+        responses: {
+            200: {
+                description: "Un utilisateur",
+                content: {
+                    'application/json': {
+                        schema: {
+                            type: 'array',
+                            'items': {'$ref': '#/components/schemas/Users'}
+                        }
+                    }
+                }
+            },
+            400: {
+                description: 'Bad request'
+            },
+            404: {
+                description: 'Not Found'
+            },
+            429: {
+                description: 'Too Many Requests'
+            },
+            500: {
+                description: 'Internal Server Error'
+            }
+        }
+    }
+),(req, res) => {
     if(!req.body.username || !req.body.password) return res.status(400).send("Bad Request")
     const sqlquery = `SELECT id, username, password FROM users WHERE id = ${req.params.id}`
     pool.query(sqlquery, (err, results) => {
@@ -130,7 +358,6 @@ app.route("/v1/users/credentials").post((req, res) => {
         })
     })
 })
-
 
 function sleep(ms) {
     return new Promise((resolve) => {
