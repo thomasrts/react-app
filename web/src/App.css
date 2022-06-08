@@ -36,3 +36,26 @@
     transform: rotate(360deg);
   }
 }
+
+.homepage {
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+}
+
+.home {
+  flex: 1;
+  background-color: rgb(255, 255, 255);
+  border-left: 1px solid rgb(0, 0, 0);
+  border-right: 1px solid rgb(0, 0, 0);
+}
+
+.leftPart {
+  background-color: rgb(255, 255, 255);
+  width: 25%;
+}
+
+.rightPart {
+  background-color: rgb(255, 255, 255);
+  width: 25%;
+}

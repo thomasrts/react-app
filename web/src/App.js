@@ -1,12 +1,16 @@
 import './App.css';
-import Affichage from "./react/Affichage/Affichage";
-import Saisie from './react/Saisie/Saisie';
+import Home from './react/Home/Home';
+import RightPart from './react/RightPart/RightPart';
+import LeftPart from './react/LeftPart/LeftPart';
 
 function App() {
     return (
         <>
-            <Affichage/>
-            <Saisie/>
+            <div className='homepage'>
+            <LeftPart className='leftPart'/>
+            <Home className='home'/>
+            <RightPart className='rightPart'/>
+            </div>
         </>
     );
 }
