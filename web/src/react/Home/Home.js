@@ -26,7 +26,7 @@ class Home extends React.Component {
   render() {
       return(
         <>
-      <div class="homePart">
+      <div className="homePart">
         <div className="home home-tweet">
           <p className="title">Home</p>
 

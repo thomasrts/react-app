@@ -4,7 +4,7 @@ class Profil extends React.Component {
   render(){
     
     return (
-      <div class="compte">
+      <div className="compte">
           <p>Mon compte</p>
       </div>
     )
