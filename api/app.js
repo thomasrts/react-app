@@ -89,12 +89,17 @@ app.route("/v1/tweets").get(oapi.path({
         }
     }
 ),(req, res) => {
-    if(!req.body.content || !req.body.idUser) return res.status(400).send("Bad Request")
-    const sqlquery = `INSERT INTO tweets (content, idUser) VALUES ("${req.body.content}", ${req.body.idUser}))`
-    pool.query(sqlquery, (err, results) => {
-        if(err) res.status(500).send("Internal Server Error")
-        else res.status(204).send("Created")
-    })
+    console.log(req.body.content, req.body.idUser)
+    if(!req.body.content || !req.body.idUser){
+        res.status(400).send("Bad Request")
+    } else{
+        const sqlquery = `INSERT INTO tweets (content, idUser) VALUES ("${req.body.content}", ${parseInt(req.body.idUser)}))`
+        console.log(sqlquery)
+        pool.query(sqlquery, (err) => {
+            if(err) res.status(500).send("Internal Server Error")
+            else res.status(204).send("Created")
+        })
+    }
 })
 
 app.route("/v1/tweets/:id").get(oapi.path({
@@ -124,7 +129,7 @@ app.route("/v1/tweets/:id").get(oapi.path({
         }
     }
 ),(req, res) => {
-    if(isNaN(parseInt(req.params.id))) return res.status(400).send("Bad Request")
+    if(isNaN(parseInt(req.params.id))) res.status(400).send("Bad Request")
     const sqlquery = `SELECT * FROM tweets WHERE idTweet = '${req.params.id}'`
     pool.query(sqlquery, (err, results) => {
         if(err) res.status(500).send("Internal Server Error")
@@ -252,7 +257,7 @@ app.route("/v1/users/:id").get(oapi.path({
         }
     }
 ),(req,res) => {
-    if(isNaN(parseInt(req.params.id))) return res.status(400).send("Bad Request")
+    if(isNaN(parseInt(req.params.id))) res.status(400).send("Bad Request")
     const sqlquery = `SELECT * FROM users WHERE id = "${req.params.id}"`
     pool.query(sqlquery, (err, results) => {
         if(err) res.status(500).send("Internal Server Error")
@@ -283,7 +288,7 @@ app.route("/v1/users/:id").get(oapi.path({
         }
     }
 ),(req,res) => {
-    if(isNaN(parseInt(req.params.id)) || !req.body.biography) return res.status(400).send("Bad Request")
+    if(isNaN(parseInt(req.params.id)) || !req.body.biography) res.status(400).send("Bad Request")
     const sqlquery = `UPDATE users set biography = "${req.body.biography}" WHERE id = "${req.params.id}"`
     pool.query(sqlquery, (err) => {
         if(err) res.status(500).send("Internal Server Error")
