@@ -1,26 +1,23 @@
 import { profile, message, fleches, fleche, heart, flecheBottom } from '../LeftPart/icons';
 import React from "react";
+import $ from 'jquery';
 class Home extends React.Component {
 
   createTweet = () =>  {
-    fetch('http://localhost:3001/v1/tweets', {
-      method: 'POST', // or 'PUT'
+    $.ajax({
+      url:'http://localhost:3001/v1/tweets',
+      method:'POST', // or 'PUT'
       headers: {
-        'Authorization': 'W9mVzVm1BVWe2O0EGmT7ta03HT7JQf52',
+        'Authorization': 'W9mVzVm1BVWe2O0EGmT7ta03HT7JQf52'
       },
-      body: {
+      data:{
         content: document.getElementById('tweetContent').value,
         idUser: 1
       },
+      success: function(){
+        alert("Tweet successfully created")
+      }
     })
-        .then(response => {
-          if(response.status === 200) {
-            alert("Tweet created successfully")
-          }
-        })
-        .then(data => {
-          console.log('Success:', data);
-        })
   }
 
   render() {

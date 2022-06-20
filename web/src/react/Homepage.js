@@ -2,6 +2,7 @@ import Home from './Home/Home';
 import '../App.css';
 import RightPart from './RightPart/RightPart';
 import LeftPart from './LeftPart/LeftPart';
+import React from "react";
 
 function Homepage() {
     return (

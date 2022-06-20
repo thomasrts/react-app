@@ -93,7 +93,7 @@ app.route("/v1/tweets").get(oapi.path({
     if(!req.body.content || !req.body.idUser){
         res.status(400).send("Bad Request")
     } else{
-        const sqlquery = `INSERT INTO tweets (content, idUser) VALUES ("${req.body.content}", ${parseInt(req.body.idUser)}))`
+        const sqlquery = `INSERT INTO tweets (content, idUser) VALUES ("${req.body.content}", ${parseInt(req.body.idUser)})`
         console.log(sqlquery)
         pool.query(sqlquery, (err) => {
             if(err) res.status(500).send("Internal Server Error")
