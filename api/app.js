@@ -64,9 +64,11 @@ app.route("/v1/tweets").get(oapi.path({
 ),(req, res) => {
     const sqlquery = "SELECT * FROM tweets"
     pool.query(sqlquery, (err, results) => {
-        if(err) return res.status(500).send("Internal Server Error")
-        if(results) return res.status(200).send(Object.assign([], results))
-        else return res.status(404).send("Not Found")
+        if(err) res.status(500).send("Internal Server Error")
+        else{
+            if(results) res.status(200).send(Object.assign([], results))
+            else res.status(404).send("Not Found")
+        }
     })
 }).post(oapi.path({
         tags: ['Tweets'],
@@ -90,8 +92,8 @@ app.route("/v1/tweets").get(oapi.path({
     if(!req.body.content || !req.body.idUser) return res.status(400).send("Bad Request")
     const sqlquery = `INSERT INTO tweets (content, idUser) VALUES ("${req.body.content}", ${req.body.idUser}))`
     pool.query(sqlquery, (err, results) => {
-        if(err) return res.status(500).send("Internal Server Error")
-        return res.status(204).send("Created")
+        if(err) res.status(500).send("Internal Server Error")
+        else res.status(204).send("Created")
     })
 })
 
@@ -125,9 +127,9 @@ app.route("/v1/tweets/:id").get(oapi.path({
     if(isNaN(parseInt(req.params.id))) return res.status(400).send("Bad Request")
     const sqlquery = `SELECT * FROM tweets WHERE idTweet = '${req.params.id}'`
     pool.query(sqlquery, (err, results) => {
-        if(err) return res.status(500).send("Internal Server Error")
-        if(results) return res.status(200).send(Object.assign({}, results[0]))
-        else return res.status(404).send("Not Found")
+        if(err) res.status(500).send("Internal Server Error")
+        if(results) res.status(200).send(Object.assign({}, results[0]))
+        else res.status(404).send("Not Found")
     })
 }).delete(oapi.path({
         tags: ['Tweets'],
@@ -148,11 +150,11 @@ app.route("/v1/tweets/:id").get(oapi.path({
         }
     }
 ),(req, res) => {
-    if(isNaN(parseInt(req.params.id))) return res.status(400).send("Bad Request")
+    if(isNaN(parseInt(req.params.id))) res.status(400).send("Bad Request")
     const sqlquery = `DELETE FROM tweets WHERE idTweet = '${req.params.id}'`
     pool.query(sqlquery, (err) => {
-        if(err) return res.status(500).send("Internal Server Error")
-        return res.status(201).send("Deleted")
+        if(err) res.status(500).send("Internal Server Error")
+        else res.status(201).send("Deleted")
     })
 })
 
@@ -213,8 +215,8 @@ app.route("/v1/users").get(oapi.path({
     bcrypt.hash(req.body.password, 10, (err, hash) => {
         const sqlquery = `INSERT INTO users (email, password) values ("${req.body.email}", "${hash}")`
         pool.query(sqlquery, (err) => {
-            if(err) return res.status(err).send("Internal Server Error")
-            return res.status(201).send("Created")
+            if(err) res.status(err).send("Internal Server Error")
+            res.status(201).send("Created")
         })
     })
 })
@@ -253,9 +255,11 @@ app.route("/v1/users/:id").get(oapi.path({
     if(isNaN(parseInt(req.params.id))) return res.status(400).send("Bad Request")
     const sqlquery = `SELECT * FROM users WHERE id = "${req.params.id}"`
     pool.query(sqlquery, (err, results) => {
-        if(err) return res.status(500).send("Internal Server Error")
-        if(results) return res.status(200).send(Object.assign({}, results[0]))
-        else return res.status(404).send("Not Found")
+        if(err) res.status(500).send("Internal Server Error")
+        else{
+            if(results) res.status(200).send(Object.assign({}, results[0]))
+            else res.status(404).send("Not Found")
+        }
     })
 }).patch(oapi.path({
         tags: ['Utilisateurs'],
@@ -282,8 +286,8 @@ app.route("/v1/users/:id").get(oapi.path({
     if(isNaN(parseInt(req.params.id)) || !req.body.biography) return res.status(400).send("Bad Request")
     const sqlquery = `UPDATE users set biography = "${req.body.biography}" WHERE id = "${req.params.id}"`
     pool.query(sqlquery, (err) => {
-        if(err) return res.status(500).send("Internal Server Error")
-        return res.status(204).send("Updated")
+        if(err) res.status(500).send("Internal Server Error")
+        else res.status(204).send("Updated")
     })
 }).delete(oapi.path({
         tags: ['Utilisateurs'],
@@ -310,8 +314,8 @@ app.route("/v1/users/:id").get(oapi.path({
     if(isNaN(parseInt(req.params.id))) return res.status(400).send("Bad Request")
     const sqlquery = `DELETE FROM users WHERE id = ${req.params.id}`
     pool.query(sqlquery, (err) => {
-        if(err) return res.status(500).send("Internal Server Error")
-        return res.status(201).send("Delete")
+        if(err) res.status(500).send("Internal Server Error")
+        else res.status(201).send("Delete")
     })
 })
 
@@ -348,12 +352,12 @@ app.route("/v1/users/credentials").post(oapi.path({
     if(!req.body.username || !req.body.password) return res.status(400).send("Bad Request")
     const sqlquery = `SELECT id, username, password FROM users WHERE id = ${req.params.id}`
     pool.query(sqlquery, (err, results) => {
-        if(err) return res.status(500).send("Internal Server Error")
+        if(err) res.status(500).send("Internal Server Error")
         bcrypt.compare(req.body.password, results[0].password, (err, stmt) => {
-            if(err) return res.status(500).send("Internal Server Error")
+            if(err) res.status(500).send("Internal Server Error")
             else{
-                if(stmt) return res.status(200).send(results[0].id)
-                else return res.status(404).send("User Not Found")
+                if(stmt) res.status(200).send(results[0].id)
+                else res.status(404).send("User Not Found")
             }
         })
     })

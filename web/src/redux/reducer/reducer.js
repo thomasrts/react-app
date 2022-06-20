@@ -13,7 +13,7 @@ const rootReducer = (state = initialState, action) => {
             })
         case 'removeTodo':
             break;
-        default :
+        default:
             return state;
     }
 
