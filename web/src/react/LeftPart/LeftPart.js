@@ -1,7 +1,11 @@
+import React from 'react';
 import { home, explore, twitter, notifications, messages, bookmarks, lists, profile, more } from './icons';
 import { Link } from "react-router-dom";
 
-const LeftPart = () => {
+class LeftPart extends React.Component {
+
+  render(){
+
     return (
       <div className="nav leftPart">
         <ul>
@@ -29,7 +33,9 @@ const LeftPart = () => {
       </Link>
 
       </div>
+    
     )
   }
+}
   
   export default LeftPart;

@@ -1,6 +1,15 @@
+import React from 'react';
 import { profile, message, fleches, fleche, heart, flecheBottom } from '../LeftPart/icons';
-const Home = () => {
-    return (
+
+class Home extends React.Component {
+
+
+
+
+    render() {
+
+      return(
+        <>
       <div class="homePart">
         <div className="home home-tweet">
           <p className="title">Home</p>
@@ -229,7 +238,9 @@ const Home = () => {
           {flecheBottom}
         </div>
       </div>
-    );
+      </>
+      )
+      };
   }
   
   export default Home;

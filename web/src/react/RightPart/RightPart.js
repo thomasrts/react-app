@@ -1,5 +1,10 @@
+import React from 'react';
 import { points } from '../LeftPart/icons';
-const RightPart = () => {
+
+class RightPart extends React.Component {
+
+  render(){
+    
     return (
       <div className="rightPart">
         <div>
@@ -60,5 +65,5 @@ const RightPart = () => {
       </div>
     )
   }
-  
+}
   export default RightPart;
