@@ -165,7 +165,7 @@ app.route("/v1/tweets/:id").get(oapi.path({
 
 
 
-app.route('/v1/tweets/:id/like').get((req, res) => {
+app.route('/v1/tweets/:id/like').post((req, res) => {
     if(isNaN(parseInt(req.params.id))) res.status(400).send("Bad Request")
     const sqlquery = `UPDATE tweets SET likes = (SELECT likes + 1 from tweets where idTweet = ${req.params.id}) WHERE idTweet = ${req.params.id}`
     pool.query(sqlquery, (err) => {
