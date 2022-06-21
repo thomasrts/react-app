@@ -309,7 +309,9 @@ textarea[name="tweet"] {
   background: white;
   cursor: pointer;
 }
-
+.btn-tweetSend {
+  cursor: pointer;
+}
 
 /* Part compte  */
 .compte {

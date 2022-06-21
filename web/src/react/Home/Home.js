@@ -14,8 +14,8 @@ class Home extends React.Component {
         }
     }
     createTweet = () => {
-      $.ajax({
-          url: 'http://localhost:3001/v1/tweets',
+      axios({
+        url: 'http://localhost:3001/v1/tweets',
           method: 'POST', // or 'PUT'
           headers: {
               'Authorization': 'W9mVzVm1BVWe2O0EGmT7ta03HT7JQf52'
@@ -23,11 +23,12 @@ class Home extends React.Component {
           data: {
               content: document.getElementById('tweetContent').value,
               idUser: 1
-          },
-          success: function () {
-              location.reload();
           }
+      }).then((res) =>{
+        const tweets = res.data;
+        this.setState({ tweets });
       })
+     
   }
   deleteTweet = (id) => {
     $.ajax({
@@ -57,6 +58,21 @@ class Home extends React.Component {
     })
   }
 
+
+  // componentDidUpdate() {
+  //   console.log(this.state.tweets)
+
+  //   axios({
+  //     url:'http://localhost:3001/v1/tweets',
+  //     method:'GET',
+  //     headers:{
+  //       'Authorization': 'W9mVzVm1BVWe2O0EGmT7ta03HT7JQf52'
+  //     }
+  //   }).then(res => {
+  //     const tweets = res.data;
+  //     this.setState({ tweets });
+  //   })
+  // }
 
     render() {
         return (
