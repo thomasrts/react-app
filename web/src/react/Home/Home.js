@@ -28,7 +28,6 @@ class Home extends React.Component {
           }
       })
   }
-
   deleteTweet = (id) => {
     $.ajax({
       url: 'http://localhost:3001/v1/tweets/'+ id,
@@ -47,9 +46,9 @@ class Home extends React.Component {
     for(let tweet of this.state.tweets){
       console.log(tweet)
       $('#tweets').append(`
-          <div class="listTweet home">
+          <div className="listTweet home">
           <svg fill="currentColor" viewBox="0 0 24 24" class="r-jwli3a r-4qtqp9 r-yyyyoo r-lwhw9o r-dnmrzs r-bnwqim r-1plcrui r-lrvibr"><g><path d="M12 11.816c1.355 0 2.872-.15 3.84-1.256.814-.93 1.078-2.368.806-4.392-.38-2.825-2.117-4.512-4.646-4.512S7.734 3.343 7.354 6.17c-.272 2.022-.008 3.46.806 4.39.968 1.107 2.485 1.256 3.84 1.256zM8.84 6.368c.162-1.2.787-3.212 3.16-3.212s2.998 2.013 3.16 3.212c.207 1.55.057 2.627-.45 3.205-.455.52-1.266.743-2.71.743s-2.255-.223-2.71-.743c-.507-.578-.657-1.656-.45-3.205zm11.44 12.868c-.877-3.526-4.282-5.99-8.28-5.99s-7.403 2.464-8.28 5.99c-.172.692-.028 1.4.395 1.94.408.52 1.04.82 1.733.82h12.304c.693 0 1.325-.3 1.733-.82.424-.54.567-1.247.394-1.94zm-1.576 1.016c-.126.16-.316.246-.552.246H5.848c-.235 0-.426-.085-.552-.246-.137-.174-.18-.412-.12-.654.71-2.855 3.517-4.85 6.824-4.85s6.114 1.994 6.824 4.85c.06.242.017.48-.12.654z"></path></g></svg>
-          <div classç="contain">
+          <div class="contain">
             <div class="profile">
               <p class="name">Justin</p>
               <p class="grey">@SKT-hffg</p>
@@ -62,7 +61,7 @@ class Home extends React.Component {
               <div class="icon">
               <svg class="svg-icon" viewBox="0 0 20 20">
               <path fill="grey" d="M10,2.262c-3.486,0-6.322,2.837-6.322,6.322c0,2.129,1.105,4.126,2.905,5.291l0.009,3.396c0.002,0.168,0.093,0.326,0.24,0.406c0.072,0.041,0.149,0.061,0.228,0.061c0.086,0,0.171-0.023,0.246-0.07l6.338-3.922c0.037-0.021,0.069-0.049,0.098-0.08c1.618-1.193,2.581-3.084,2.581-5.082C16.322,5.099,13.485,2.262,10,2.262z M13.109,12.969c-0.016,0.01-0.03,0.023-0.044,0.037l-5.542,3.426l-0.006-2.594c0.012-0.027,0.023-0.057,0.03-0.086c0.05-0.203-0.041-0.414-0.221-0.52c-1.675-0.963-2.715-2.746-2.715-4.648c0-2.971,2.417-5.387,5.388-5.387c2.971,0,5.387,2.417,5.387,5.387C15.387,10.316,14.536,11.955,13.109,12.969z"></path></svg>
-                <p>3</p>
+                <p>3{}</p>
               </div>
               <div class="icon">
                 <svg class="svg-icon" viewBox="0 0 20 20">
@@ -76,13 +75,13 @@ class Home extends React.Component {
                   C3.435,9.212,3.386,9.6,3.386,10c0,3.812,3.09,6.901,6.902,6.901c2.083,0,3.946-0.927,5.212-2.387l-0.898-0.719
                   C13.547,14.992,12.008,15.752,10.288,15.752z"></path>
                   </svg>
-                <p>1</p>
+                <p>1{}</p>
               </div>
               <div class="icon">
               <svg class="svg-icon" viewBox="0 0 20 20">
               <path fill="grey" d="M9.719,17.073l-6.562-6.51c-0.27-0.268-0.504-0.567-0.696-0.888C1.385,7.89,1.67,5.613,3.155,4.14c0.864-0.856,2.012-1.329,3.233-1.329c1.924,0,3.115,1.12,3.612,1.752c0.499-0.634,1.689-1.752,3.612-1.752c1.221,0,2.369,0.472,3.233,1.329c1.484,1.473,1.771,3.75,0.693,5.537c-0.19,0.32-0.425,0.618-0.695,0.887l-6.562,6.51C10.125,17.229,9.875,17.229,9.719,17.073 M6.388,3.61C5.379,3.61,4.431,4,3.717,4.707C2.495,5.92,2.259,7.794,3.145,9.265c0.158,0.265,0.351,0.51,0.574,0.731L10,16.228l6.281-6.232c0.224-0.221,0.416-0.466,0.573-0.729c0.887-1.472,0.651-3.346-0.571-4.56C15.57,4,14.621,3.61,13.612,3.61c-1.43,0-2.639,0.786-3.268,1.863c-0.154,0.264-0.536,0.264-0.69,0C9.029,4.397,7.82,3.61,6.388,3.61"></path>
               </svg>
-                <p>16</p>
+                <p>16{}</p>
               </div>
               <div class="icon">
               <svg class="svg-icon" viewBox="0 0 20 20">
@@ -91,7 +90,7 @@ class Home extends React.Component {
               </div>
             </div>
           </div>
-          <button onClick={${this.deleteTweet(tweet.idTweet)}}><svg class="svg-icon fleche-bottom" viewBox>
+          <button onClick={this.deleteTweet(tweet.idTweet)}><svg class="svg-icon fleche-bottom">
           <path fill="grey" d="M14.989,9.491L6.071,0.537C5.78,0.246,5.308,0.244,5.017,0.535c-0.294,0.29-0.294,0.763-0.003,1.054l8.394,8.428L5.014,18.41c-0.291,0.291-0.291,0.763,0,1.054c0.146,0.146,0.335,0.218,0.527,0.218c0.19,0,0.382-0.073,0.527-0.218l8.918-8.919C15.277,10.254,15.277,9.784,14.989,9.491z"></path>
           </svg></button> 
         </div>
@@ -108,7 +107,7 @@ class Home extends React.Component {
                     <div className="home home-tweet">
                         <p className="title">Home</p>
 
-          <div className="tweetSend">
+            <div className="tweetSend">
             <div className="profil-tweet">
               {profile}
               <textarea
@@ -118,7 +117,7 @@ class Home extends React.Component {
                 placeholder="What's happening ?"
               />
             </div>
-            <button className="btn-tweetSend" onClick={this.createTweet}>Tweet</button>
+            <button class="btn-tweetSend" onClick={this.createTweet}>Tweet</button>
           </div>
         </div> 
         <div className="hr"></div>
