@@ -62,7 +62,7 @@ app.route("/v1/tweets").get(oapi.path({
         }
     }
 ),(req, res) => {
-    const sqlquery = "SELECT * FROM tweets"
+    const sqlquery = "SELECT * FROM tweets order by idTweet DESC"
     pool.query(sqlquery, (err, results) => {
         if(err) res.status(500).send("Internal Server Error")
         else{

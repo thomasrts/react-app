@@ -304,6 +304,12 @@ textarea[name="tweet"] {
   font-weight: 600;
 }
 
+.btn-delete {
+  border: none;
+  background: white;
+  cursor: pointer;
+}
+
 
 /* Part compte  */
 .compte {

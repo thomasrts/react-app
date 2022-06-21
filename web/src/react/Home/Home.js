@@ -63,7 +63,7 @@ class Home extends React.Component {
             <>
             <div className="homePart">
               <div className="home home-tweet">
-                <p className="title">Home</p>
+              <p className="title">Home</p>
             <div className="tweetSend">
             <div className="profil-tweet">
               {profile}
@@ -77,9 +77,11 @@ class Home extends React.Component {
             <button class="btn-tweetSend" onClick={this.createTweet}>Tweet</button>
           </div>
         </div> 
-        <div className="hr"></div>
+       
 
-        { this.props.tweets.map((tweet) =>
+        { this.props.tweets.map((tweet) => 
+        <>
+        <div className="hr"></div>
         <div class="listTweet home">
           <svg fill="currentColor" viewBox="0 0 24 24" class="r-jwli3a r-4qtqp9 r-yyyyoo r-lwhw9o r-dnmrzs r-bnwqim r-1plcrui r-lrvibr"><g><path d="M12 11.816c1.355 0 2.872-.15 3.84-1.256.814-.93 1.078-2.368.806-4.392-.38-2.825-2.117-4.512-4.646-4.512S7.734 3.343 7.354 6.17c-.272 2.022-.008 3.46.806 4.39.968 1.107 2.485 1.256 3.84 1.256zM8.84 6.368c.162-1.2.787-3.212 3.16-3.212s2.998 2.013 3.16 3.212c.207 1.55.057 2.627-.45 3.205-.455.52-1.266.743-2.71.743s-2.255-.223-2.71-.743c-.507-.578-.657-1.656-.45-3.205zm11.44 12.868c-.877-3.526-4.282-5.99-8.28-5.99s-7.403 2.464-8.28 5.99c-.172.692-.028 1.4.395 1.94.408.52 1.04.82 1.733.82h12.304c.693 0 1.325-.3 1.733-.82.424-.54.567-1.247.394-1.94zm-1.576 1.016c-.126.16-.316.246-.552.246H5.848c-.235 0-.426-.085-.552-.246-.137-.174-.18-.412-.12-.654.71-2.855 3.517-4.85 6.824-4.85s6.114 1.994 6.824 4.85c.06.242.017.48-.12.654z"></path></g></svg>
           <div class="contain">
@@ -124,95 +126,12 @@ class Home extends React.Component {
               </div>
             </div>
           </div>
-          <button onClick={()=> this.deleteTweet(tweet.idTweet)}><svg class="svg-icon fleche-bottom">
+          <button class="btn-delete" onClick={()=> this.deleteTweet(tweet.idTweet)}><svg class="svg-icon fleche-bottom">
           <path fill="grey" d="M14.989,9.491L6.071,0.537C5.78,0.246,5.308,0.244,5.017,0.535c-0.294,0.29-0.294,0.763-0.003,1.054l8.394,8.428L5.014,18.41c-0.291,0.291-0.291,0.763,0,1.054c0.146,0.146,0.335,0.218,0.527,0.218c0.19,0,0.382-0.073,0.527-0.218l8.918-8.919C15.277,10.254,15.277,9.784,14.989,9.491z"></path>
           </svg></button> 
-        </div> )}
-        <div class="hr"></div>
-       
-        <div className="listTweet home">
-          {profile}
-          <div className="contain">
-            <div className="profile">
-              <p id="1" className="name">Justin</p>
-              <p className="grey">@SKT-hffg</p>
-              <p className="grey">3m</p>
-            </div>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Suspendisse quis consequat lorem, at suscipit magna. Quisque
-              eleifend non felis in ullamcorper. Sed tincidunt quam eu quam
-              tincidunt consequat. Pellentesque sodales egestas consectetur.
-              Pellentesque quis scelerisque nunc. Pellentesque lacinia
-              consectetur tristique. Ut congue, urna in auctor lacinia, orci
-              nulla tempus erat, tempor convallis felis erat vel dolor. Proin
-              rutrum commodo neque non condimentum. Donec aliquam vel neque ac
-              egestas. Sed quis orci quis nisi convallis egestas. Sed vestibulum
-              porta ex, ac porta nisi elementum id.
-            </p>
-            <div className="icons">
-              <div className="icon">
-                {message}
-                <p>3</p>
-              </div>
-              <div className="icon">
-                {fleches}
-                <p>1</p>
-              </div>
-              <div className="icon">
-                {heart}
-                <p>16</p>
-              </div>
-              <div className="icon">
-                {fleche}
-                <p className="none">0</p>
-              </div>
-            </div>
-          </div>
-          {flecheBottom}
-        </div>
-        <div className="hr"></div>
-        <div className="listTweet home">
-          {profile}
-          <div className="contain">
-            <div className="profile">
-              <p className="name">Justin</p>
-              <p className="grey">@SKT-hffg</p>
-              <p className="grey">3m</p>
-            </div>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Suspendisse quis consequat lorem, at suscipit magna. Quisque
-              eleifend non felis in ullamcorper. Sed tincidunt quam eu quam
-              tincidunt consequat. Pellentesque sodales egestas consectetur.
-              Pellentesque quis scelerisque nunc. Pellentesque lacinia
-              consectetur tristique. Ut congue, urna in auctor lacinia, orci
-              nulla tempus erat, tempor convallis felis erat vel dolor. Proin
-              rutrum commodo neque non condimentum. Donec aliquam vel neque ac
-              egestas. Sed quis orci quis nisi convallis egestas. Sed vestibulum
-              porta ex, ac porta nisi elementum id.
-            </p>
-            <div className="icons">
-              <div className="icon">
-                {message}
-                <p>3</p>
-              </div>
-              <div className="icon">
-                {fleches}
-                <p>1</p>
-              </div>
-              <div className="icon">
-                {heart}
-                <p>16</p>
-              </div>
-              <div className="icon">
-                {fleche}
-                <p className="none">0</p>
-              </div>
-            </div>
-          </div>
-          {flecheBottom}
-        </div>
+        </div> 
+        </>
+        )}
       </div>
         </>
     )
