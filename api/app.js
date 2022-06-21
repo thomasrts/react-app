@@ -164,7 +164,6 @@ app.route("/v1/tweets/:id").get(oapi.path({
 })
 
 
-
 app.route('/v1/tweets/:id/like').post((req, res) => {
     if(isNaN(parseInt(req.params.id))) res.status(400).send("Bad Request")
     const sqlquery = `UPDATE tweets SET likes = (SELECT likes + 1 from tweets where idTweet = ${req.params.id}) WHERE idTweet = ${req.params.id}`
@@ -173,11 +172,6 @@ app.route('/v1/tweets/:id/like').post((req, res) => {
         else res.status(200).send("Tweet liked")
     })
 })
-
-
-
-
-
 
 app.route("/v1/users").get(oapi.path({
         tags: ['Utilisateurs'],

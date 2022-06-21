@@ -18,7 +18,6 @@ class Homepage extends React.Component {
     }
 
     async componentDidMount() {
-
         await axios({
             url:'http://localhost:3001/v1/tweets',
             method:"GET",
@@ -31,20 +30,21 @@ class Homepage extends React.Component {
                 tweets: json
             })
         })
+    }
 
-
-        /*$.ajax({
-        url:'http://localhost:3001/v1/tweets',
-        method:'GET', // or 'PUT'
-        headers: {
-            'Authorization': 'W9mVzVm1BVWe2O0EGmT7ta03HT7JQf52'
-        },
-        success: function(data){
+    async componentDidUpdate(prevProps, prevState, snapshot) {
+        await axios({
+            url:'http://localhost:3001/v1/tweets',
+            method:"GET",
+            headers:{
+                'Authorization': "W9mVzVm1BVWe2O0EGmT7ta03HT7JQf52"
+            }
+        }).then((response) => {
+            let json = response.data
             this.setState({
-                tweets: data
+                tweets: json
             })
-        }
-    })*/
+        })
     }
 
     render() {

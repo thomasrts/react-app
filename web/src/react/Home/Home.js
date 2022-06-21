@@ -28,7 +28,7 @@ class Home extends React.Component {
         const tweets = res.data;
         this.setState({ tweets });
       })
-     
+
   }
   deleteTweet = (id) => {
     $.ajax({
@@ -59,20 +59,8 @@ class Home extends React.Component {
   }
 
 
-  // componentDidUpdate() {
-  //   console.log(this.state.tweets)
 
-  //   axios({
-  //     url:'http://localhost:3001/v1/tweets',
-  //     method:'GET',
-  //     headers:{
-  //       'Authorization': 'W9mVzVm1BVWe2O0EGmT7ta03HT7JQf52'
-  //     }
-  //   }).then(res => {
-  //     const tweets = res.data;
-  //     this.setState({ tweets });
-  //   })
-  // }
+
 
     render() {
         return (
