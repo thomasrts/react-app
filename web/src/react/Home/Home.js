@@ -1,31 +1,32 @@
-import { profile, message, fleches, fleche, heart, flecheBottom } from '../LeftPart/icons';
+import {profile, message, fleches, fleche, heart, flecheBottom} from '../LeftPart/icons';
 import React from "react";
+import ReactDOM from 'react-dom/client';
 import $ from 'jquery';
-class Home extends React.Component {
-  tweets = [];
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      tweets: props.tweets,
+class Home extends React.Component {
+    tweets = [];
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            tweets: props.tweets,
+        }
     }
-  }
-    
-  createTweet = () =>  {
-    $.ajax({
-      url:'http://localhost:3001/v1/tweets',
-      method:'POST', // or 'PUT'
-      headers: {
-        'Authorization': 'W9mVzVm1BVWe2O0EGmT7ta03HT7JQf52'
-      },
-      data:{
-        content: document.getElementById('tweetContent').value,
-        idUser: 1
-      },
-      success: function(){
-        alert("Tweet successfully created")
-      }
-    })
+    createTweet = () => {
+      $.ajax({
+          url: 'http://localhost:3001/v1/tweets',
+          method: 'POST', // or 'PUT'
+          headers: {
+              'Authorization': 'W9mVzVm1BVWe2O0EGmT7ta03HT7JQf52'
+          },
+          data: {
+              content: document.getElementById('tweetContent').value,
+              idUser: 1
+          },
+          success: function () {
+              alert("Tweet successfully created")
+          }
+      })
   }
 
   deleteTweet = (id) => {
@@ -100,12 +101,12 @@ class Home extends React.Component {
   }
 
 
-  render() {
-      return(
-        <>
-      <div className="homePart">
-        <div className="home home-tweet">
-          <p className="title">Home</p>
+    render() {
+        return (
+            <>
+                <div className="homePart">
+                    <div className="home home-tweet">
+                        <p className="title">Home</p>
 
           <div className="tweetSend">
             <div className="profil-tweet">
@@ -212,4 +213,4 @@ class Home extends React.Component {
   };
 }
 
-  export default Home;
+export default Home;
