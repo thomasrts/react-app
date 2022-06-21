@@ -3,6 +3,7 @@ import '../App.css';
 import RightPart from './RightPart/RightPart';
 import LeftPart from './LeftPart/LeftPart';
 import React from "react";
+import axios from "axios";
 import $ from "jquery";
 
 
@@ -13,22 +14,25 @@ class Homepage extends React.Component {
         this.state = {
             tweets:[]
         }
+
     }
 
     async componentDidMount() {
-        let response = await fetch('http://localhost:3001/v1/tweets', {
-            method: 'GET',
-            headers: {
+
+        await axios({
+            url:'http://localhost:3001/v1/tweets',
+            method:"GET",
+            headers:{
                 'Authorization': "W9mVzVm1BVWe2O0EGmT7ta03HT7JQf52"
             }
+        }).then((response) => {
+            let json = response.data
+            this.setState({
+                tweets: json
+            })
         })
 
-        let json = await response.json()
 
-
-        this.setState({
-            tweets: json
-        })
         /*$.ajax({
         url:'http://localhost:3001/v1/tweets',
         method:'GET', // or 'PUT'
