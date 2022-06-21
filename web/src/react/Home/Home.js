@@ -42,8 +42,41 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
-    for(let tweet in this.tweets){
-      $('#tweets').append(tweet)
+    console.log(this.state.tweets)
+    for(let tweet of this.state.tweets){
+      console.log(tweet)
+      $('#tweets').append(`<div className="listTweet home">
+          ${{profile}}
+          <div className="contain">
+            <div className="profile">
+              <p className="name">Justin</p>
+              <p className="grey">@SKT-hffg</p>
+              <p className="grey">3m</p>
+            </div><p>${tweet.content}</p>
+                <div className="icons">
+              <div className="icon">
+                ${{message}}
+                <p>3</p>
+              </div>
+              <div className="icon">
+                ${{fleches}}
+                <p>1</p>
+              </div>
+              
+              <div className="icon">
+                ${{heart}}
+                <p>16</p>
+              </div>
+              <div className="icon">
+                ${{fleche}}
+                <p className="none">0</p>
+              </div>
+            </div>
+          </div>
+          ${{flecheBottom}}
+        </div>
+        <div className="hr"></div>`
+      )
     }
   }
 

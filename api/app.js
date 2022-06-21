@@ -66,7 +66,8 @@ app.route("/v1/tweets").get(oapi.path({
     pool.query(sqlquery, (err, results) => {
         if(err) res.status(500).send("Internal Server Error")
         else{
-            if(results) res.status(200).send(Object.assign([], results))
+            console.log(Object.assign([], results))
+            if(results) res.send(Object.assign([], results))
             else res.status(404).send("Not Found")
         }
     })

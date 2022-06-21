@@ -15,19 +15,32 @@ class Homepage extends React.Component {
         }
     }
 
-    componentDidMount() {
-        $.ajax({
-            url:'http://localhost:3001/v1/tweets',
-            method:'GET', // or 'PUT'
+    async componentDidMount() {
+        let response = await fetch('http://localhost:3001/v1/tweets', {
+            method: 'GET',
             headers: {
-                'Authorization': 'W9mVzVm1BVWe2O0EGmT7ta03HT7JQf52'
-            },
-            success: function(data){
-                this.setState({
-                    tweets: data
-                })
+                'Authorization': "W9mVzVm1BVWe2O0EGmT7ta03HT7JQf52"
             }
         })
+
+        let json = await response.json()
+
+
+        this.setState({
+            tweets: json
+        })
+        /*$.ajax({
+        url:'http://localhost:3001/v1/tweets',
+        method:'GET', // or 'PUT'
+        headers: {
+            'Authorization': 'W9mVzVm1BVWe2O0EGmT7ta03HT7JQf52'
+        },
+        success: function(data){
+            this.setState({
+                tweets: data
+            })
+        }
+    })*/
     }
 
     render() {
