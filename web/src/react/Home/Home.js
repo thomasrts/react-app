@@ -28,6 +28,19 @@ class Home extends React.Component {
     })
   }
 
+  deleteTweet = (idUser) => {
+    $.ajax({
+      url: 'http://localhost:3001/v1/tweets/'+ idUser,
+      method: 'DELETE',
+      headers: {
+        'Authorization': 'W9mVzVm1BVWe2O0EGmT7ta03HT7JQf52'
+      },
+      success: function(){
+        alert("Tweet successfully delete")
+      }
+    })
+  }
+
   componentDidMount() {
     for(let tweet in this.tweets){
       $('#tweets').append(tweet)
@@ -63,7 +76,7 @@ class Home extends React.Component {
           {profile}
           <div className="contain">
             <div className="profile">
-              <p className="name">Justin</p>
+              <p id="1" className="name">Justin</p>
               <p className="grey">@SKT-hffg</p>
               <p className="grey">3m</p>
             </div>
@@ -98,7 +111,7 @@ class Home extends React.Component {
               </div>
             </div>
           </div>
-          {flecheBottom}
+          <button onClick={this.deleteTweet(idUser = 1)}>{flecheBottom}</button>
         </div>
         <div className="hr"></div>
         <div className="listTweet home">
