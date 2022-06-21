@@ -2,7 +2,15 @@ import { profile, message, fleches, fleche, heart, flecheBottom } from '../LeftP
 import React from "react";
 import $ from 'jquery';
 class Home extends React.Component {
+  tweets = [];
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      tweets: props.tweets,
+    }
+  }
+    
   createTweet = () =>  {
     $.ajax({
       url:'http://localhost:3001/v1/tweets',
@@ -19,6 +27,13 @@ class Home extends React.Component {
       }
     })
   }
+
+  componentDidMount() {
+    for(let tweet in this.tweets){
+      $('#tweets').append(tweet)
+    }
+  }
+
 
   render() {
       return(
@@ -40,7 +55,9 @@ class Home extends React.Component {
             <button className="btn-tweetSend" onClick={this.createTweet}>Tweet</button>
           </div>
         </div>
+        <div id="tweets">
 
+        </div>
         <div className="hr"></div>
         <div className="listTweet home">
           {profile}

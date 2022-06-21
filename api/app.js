@@ -89,7 +89,6 @@ app.route("/v1/tweets").get(oapi.path({
         }
     }
 ),(req, res) => {
-    console.log(req.body.content, req.body.idUser)
     if(!req.body.content || !req.body.idUser){
         res.status(400).send("Bad Request")
     } else{
